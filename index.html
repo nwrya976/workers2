@@ -3,555 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📋 برنامج إدارة العمال</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body { 
-        font-family: 'Cairo', sans-serif;
-        direction: rtl; 
-        background: linear-gradient(135deg, #1f1f2e, #12121c);
-        color: #e0e0e0;
-        padding: 20px; 
-        min-height: 100vh;
-        transition: background 0.5s ease, color 0.5s ease;
-    }
-    
-    /* Light Mode */
-    body.light-mode {
-        background: #f0f0f0;
-        color: #111;
-    }
-    
-    body.light-mode .container {
-        background: #ffffff;
-        border: 1px solid #ccc;
-        color: #111;
-    }
-    
-    body.light-mode h1, body.light-mode h2, body.light-mode h3 {
-        color: #2193b0;
-        -webkit-text-fill-color: #2193b0;
-    }
-    
-    body.light-mode button {
-        background: linear-gradient(135deg, #00b09b, #96c93d);
-        color: #fff;
-    }
-    
-    body.light-mode input, body.light-mode textarea, body.light-mode select {
-        background-color: #fff;
-        color: #000;
-        border-color: #bbb;
-    }
-    
-    body.light-mode th {
-        background: #f8f9fa;
-        color: #333;
-    }
-    
-    body.light-mode td {
-        color: #333;
-    }
-    
-    /* Theme Toggle */
-    .theme-toggle {
-        background: none;
-        color: #e0e0e0;
-        font-size: 1.5rem;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border: none;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1000;
-        transition: color 0.3s, background 0.3s;
-    }
-    
-    body.light-mode .theme-toggle {
-        color: #2c3e50;
-    }
-    
-    .container { 
-        max-width: 900px;
-        margin: auto; 
-        background: rgba(40, 44, 52, 0.95);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(6px);
-        padding: 40px 35px;
-        border-radius: 20px; 
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-        animation: fadeInUp 0.6s ease-out;
-        margin-top: 80px;
-    }
-    
-    .container:hover {
-        transform: scale(1.005);
-        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    h1, h2, h3 { 
-        text-align: center;
-        color: #ffffff;
-        background: linear-gradient(to right, #6dd5ed, #2193b0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 20px;
-    }
-    
-    h1 {
-        font-size: 36px;
-        margin-bottom: 25px;
-    }
-
-    /* Styles for Inputs */
-    input[type="text"], input[type="number"], input[type="email"], input[type="password"], 
-    input[type="file"], select, textarea { 
-        margin: 5px 0;
-        padding: 12px; 
-        width: 100%; 
-        border: 1px solid #444; 
-        border-radius: 10px; 
-        box-sizing: border-box;
-        background-color: #1d1f27;
-        color: #fff;
-        font-size: 1rem;
-    }
-    
-    input:focus, textarea:focus, select:focus {
-        border-color: #6dd5ed;
-        outline: none;
-    }
-
-    /* Styles for Buttons */
-    button { 
-        background: linear-gradient(135deg, #00b09b, #96c93d);
-        color: #fff;
-        cursor: pointer; 
-        font-weight: bold;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 16px rgba(0, 255, 180, 0.3);
-        margin: 5px 0;
-        padding: 12px;
-        width: 100%;
-        border: none;
-        border-radius: 10px;
-        box-sizing: border-box;
-        font-size: 1rem;
-    }
-    
-    button:hover {
-        background: linear-gradient(135deg, #00816a, #7db515);
-        box-shadow: 0 8px 22px rgba(0, 255, 180, 0.4);
-        transform: translateY(-1px);
-    }
-    
-    button.delete {
-        background: #e74c3c;
-        box-shadow: 0 5px 16px rgba(231, 76, 60, 0.3);
-    }
-    
-    button.delete:hover {
-        background: #c0392b;
-        box-shadow: 0 8px 22px rgba(231, 76, 60, 0.4);
-    }
-
-    table { 
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px; 
-    }
-    
-    th, td { 
-        border: 1px solid #444;
-        padding: 10px; 
-        text-align: center; 
-    }
-    
-    th { 
-        background: #1d1f27;
-        color: #e0e0e0;
-    }
-
-    .report { 
-        margin-top: 20px;
-        padding: 15px;
-        background: rgba(40, 44, 52, 0.95); 
-        border: 1px solid rgba(255, 255, 255, 0.05); 
-        border-radius: 12px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    body.light-mode .report {
-        background: #f8f9fa;
-        color: #333;
-        border: 1px solid #ddd;
-    }
-
-    .worker-image { 
-        width: 50px;
-        height: 50px; 
-        border-radius: 50%; 
-        object-fit: cover; 
-        cursor: pointer; 
-    }
-    
-    .worker-details { 
-        display: flex;
-        align-items: center; 
-        justify-content: center; 
-    }
-    
-    .worker-details img { 
-        margin-left: 10px;
-    }
-
-    .action-buttons { 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center;
-        gap: 5px; 
-    }
-    
-    .inline-buttons { 
-        display: flex;
-        gap: 5px; 
-    }
-    
-    .inline-buttons button { 
-        width: auto;
-    }
-
-    /* Modal styles */
-    .modal { 
-        display: none;
-        position: fixed; 
-        z-index: 1; 
-        padding-top: 100px; 
-        left: 0; 
-        top: 0; 
-        width: 100%; 
-        height: 100%; 
-        overflow: auto; 
-        background-color: rgba(0,0,0,0.9);
-    }
-    
-    .modal-content { 
-        margin: auto;
-        display: block; 
-        width: 80%; 
-        max-width: 700px; 
-    }
-    
-    .modal-content, #caption { 
-        animation-name: zoom;
-        animation-duration: 0.6s; 
-    }
-    
-    .close { 
-        position: absolute;
-        top: 15px; 
-        right: 35px; 
-        color: #f1f1f1; 
-        font-size: 40px; 
-        font-weight: bold; 
-        transition: 0.3s;
-    }
-    
-    .close:hover, .close:focus { 
-        color: #bbb;
-        text-decoration: none; 
-        cursor: pointer; 
-    }
-    
-    @keyframes zoom { 
-        from { transform:scale(0) } 
-        to { transform:scale(1) } 
-    }
-    
-    @keyframes fadeInUp {
-        from { opacity: 0;
-        transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0);
-    }
-    }
-
-    /* Auth Page Styles */
-    .auth-container {
-        background: rgba(40, 44, 52, 0.95);
-        backdrop-filter: blur(6px);
-        padding: 2rem;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-        color: #e0e0e0;
-        margin: 80px auto 0;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    body.light-mode .auth-container {
-        background: white;
-        color: #333;
-        border: 1px solid #ccc;
-    }
-    
-    .auth-container h1 {
-        color: #ffffff;
-        background: linear-gradient(to right, #6dd5ed, #2193b0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 2rem;
-        font-size: 1.8rem;
-    }
-    
-    body.light-mode .auth-container h1 {
-        color: #333;
-        background: none;
-        -webkit-text-fill-color: #333;
-    }
-    
-    .form-group {
-        margin-bottom: 1.5rem;
-        text-align: right;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: #e0e0e0;
-        font-weight: 500;
-    }
-    
-    body.light-mode .form-group label {
-        color: #555;
-    }
-    
-    .form-group input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #444;
-        border-radius: 10px;
-        font-size: 1rem;
-        transition: border-color 0.3s;
-        text-align: right;
-        background: #1d1f27;
-        color: #fff;
-    }
-    
-    body.light-mode .form-group input {
-        background: white;
-        color: #333;
-        border: 2px solid #ddd;
-    }
-    
-    .form-group input:focus {
-        outline: none;
-        border-color: #6dd5ed;
-        box-shadow: 0 0 0 3px rgba(109, 213, 237, 0.1);
-    }
-    
-    .button-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 2rem;
-    }
-    
-    .btn-primary {
-        background: linear-gradient(135deg, #00b09b, #96c93d);
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 5px 16px rgba(0, 255, 180, 0.3);
-    }
-    
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #00816a, #7db515);
-        transform: translateY(-2px);
-    }
-    
-    .btn-secondary {
-        background: rgba(255, 255, 255, 0.1);
-        color: #e0e0e0;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        padding: 12px 20px;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    body.light-mode .btn-secondary {
-        background: #f7f7f7;
-        color: #333;
-        border: 2px solid #ddd;
-    }
-    
-    .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-    }
-    
-    body.light-mode .btn-secondary:hover {
-        background: #e7e7e7;
-    }
-    
-    .success-message {
-        display: none;
-        background: #d4edda;
-        color: #155724;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-        border: 1px solid #c3e6cb;
-    }
-    
-    .error-message {
-        display: none;
-        background: #f8d7da;
-        color: #721c24;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-        border: 1px solid #f5c6cb;
-    }
-    
-    .form-toggle {
-        margin-top: 1rem;
-        color: #ccc;
-    }
-    
-    body.light-mode .form-toggle {
-        color: #666;
-    }
-    
-    .form-toggle a {
-        color: #6dd5ed;
-        text-decoration: none;
-        font-weight: 600;
-    }
-    
-    .form-toggle a:hover {
-        text-decoration: underline;
-    }
-    
-    .user-header {
-        background: rgba(40, 44, 52, 0.95);
-        color: #e0e0e0;
-        padding: 15px 20px;
-        border-radius: 15px;
-        margin-bottom: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    body.light-mode .user-header {
-        background: #ffffff;
-        color: #333;
-        border: 1px solid #ddd;
-    }
-    
-    .hidden {
-        display: none;
-    }
-
-    /* Developer Info Footer */
-    .developer-info {
-        margin-top: 40px;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #888;
-        padding: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        width: 100%;
-    }
-    
-    body.light-mode .developer-info {
-        color: #555;
-        border-top: 1px solid #ccc;
-    }
-    
-    .developer-info a {
-        color: #6dd5ed;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-    
-    .developer-info a:hover {
-        color: #2193b0;
-        text-decoration: underline;
-    }
-
-    /* Collapsible styles */
-    .collapsible-header {
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: right;
-        outline: none;
-        font-size: 1.2rem;
-        transition: background-color 0.3s ease;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: linear-gradient(to right, #6dd5ed, #2193b0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 20px;
-    }
-
-    .collapsible-header .fas {
-        transition: transform 0.3s ease;
-    }
-
-    .collapsible-header.active .fas {
-        transform: rotate(180deg);
-    }
-
-    .collapsible-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease-out;
-        padding: 0 18px;
-    }
-
-    .collapsible-content .report {
-        padding: 0;
-    }
-    
-   HTML
-
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📋 برنامج إدارة المشاريع والعمال</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -1090,34 +541,17 @@
         /* تعديلات جديدة لتصغير الأزرار وحقول الإدخال */
         input[type="text"], input[type="number"], input[type="email"], input[type="password"], 
         input[type="file"], select, textarea {
-            padding: 8px 10px;
-            font-size: 0.8rem;
+            padding: 8px; /* تقليل حجم الحشو */
+            font-size: 0.8rem; /* تقليل حجم الخط */
         }
         
         button {
-            padding: 10px;
-            font-size: 0.9rem;
+            padding: 10px; /* تقليل حجم حشو الأزرار */
+            font-size: 0.9rem; /* تقليل حجم خط الأزرار */
         }
 
         .btn-primary, .btn-secondary {
-            padding: 10px 15px;
-        }
-        
-        /* New rules for the table and operations column */
-        th, td {
-            padding: 8px; /* Reduce padding for a more compact look */
-            font-size: 0.8rem; /* Make the font smaller */
-        }
-    
-        .action-buttons {
-            flex-direction: column;
-            gap: 4px; /* A smaller gap between buttons */
-        }
-    
-        .action-buttons button {
-            padding: 6px 8px; /* Reduce button padding */
-            font-size: 0.8rem; /* Reduce button font size */
-            width: auto; /* Allow buttons to take up less width */
+            padding: 10px 15px; /* تقليل حجم حشو أزرار تسجيل الدخول */
         }
     }
 </style>
@@ -1143,6 +577,7 @@
     <form id="auth-form">
         <div class="form-group">
             <label for="email">البريد الإلكتروني:</label>
+        
             <input type="email" id="email" name="email" placeholder="Your-Name@gmail.com" required>
         </div>
 
@@ -1161,6 +596,7 @@ return false;" id="forgot-password-link">هل نسيت كلمة المرور؟</
 
         <div class="button-group">
             <button type="button" id="login-btn" class="btn-primary">تسجيل دخول</button>
+            
             <button type="button" id="signup-btn" class="btn-primary hidden">إنشاء حساب</button>
         </div>
     </form>
@@ -1176,6 +612,7 @@ return false;" id="forgot-password-link">هل نسيت كلمة المرور؟</
             <h2 style="margin: 0;">مرحباً، <span id="user-display-name"></span>! 🙋‍♂️</h2>
             <small id="user-display-email"></small>
         </div>
+    
         <button id="logout-btn" class="btn-secondary" style="margin: 0; width: auto;">تسجيل الخروج</button>
     </div>
 
@@ -1193,44 +630,33 @@ display: flex; align-items: center; gap: 10px;">
     <div id="mainContent" style="display:none;">
         <hr style="margin: 30px 0;
 border: 1px solid rgba(255,255,255,0.1);">
-        
-        <h3 class="collapsible-header" data-target="addWorkerSection">
-            ➕ إضافة عامل
-            <i class="fas fa-chevron-down"></i>
-        </h3>
-        <div id="addWorkerSection" class="collapsible-content">
-            <input type="text" id="name" placeholder="اسم العامل">
-            <input type="text" id="phone" placeholder="رقم الهاتف">
-            <input type="number" id="wage" placeholder="الأجرة اليومية">
-            <label for="imageFile">صورة العامل:</label>
-            <input type="file" id="imageFile" accept="image/*">
-            <button onclick="addWorker()">إضافة</button>
-        </div>
+        <h3>➕ إضافة عامل</h3>
+        <input type="text" id="name" placeholder="اسم العامل">
+        <input type="text" id="phone" placeholder="رقم الهاتف">
+        <input type="number" id="wage" placeholder="الأجرة اليومية">
+        <label for="imageFile">صورة العامل:</label>
+        <input type="file" id="imageFile" accept="image/*">
+        <button onclick="addWorker()">إضافة</button>
 
-        <h3 class="collapsible-header" data-target="workersTableSection">
-            📊 كشف العمال
-            <i class="fas fa-chevron-down"></i>
-        </h3>
-        <div id="workersTableSection" class="collapsible-content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>الاسم</th>
-                        <th>الأجرة اليومية</th>
-                        <th>عدد الأيام</th>
-                        <th>الراتب المستحق</th>
-                        <th>العمليات</th>
-                    </tr>
-                </thead>
-                <tbody id="workerTable"></tbody>
-            </table>
-        </div>
-        
-        <h3 class="collapsible-header" data-target="attendanceSection">
-            📝 تسجيل الحضور يدوي
-            <i class="fas fa-chevron-down"></i>
-        </h3>
-        <div id="attendanceSection" class="collapsible-content">
+        <h3>📊 كشف العمال</h3>
+        <table>
+   
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>الأجرة اليومية</th>
+                    <th>عدد الأيام</th>
+             
+                    <th>الراتب المستحق</th>
+                    <th>العمليات</th>
+                </tr>
+            </thead>
+            <tbody id="workerTable"></tbody>
+        </table>
+
+        <div style="margin-top: 20px;">
+            <h3>📝 
+تسجيل الحضور يدوي</h3>
             <input type="text" id="attendanceWorkerName" placeholder="اسم العامل">
             <div class="inline-buttons">
                 <button onclick="markAttendanceByName('day')">إضافة يوم</button>
@@ -1238,38 +664,28 @@ border: 1px solid rgba(255,255,255,0.1);">
             </div>
         </div>
 
-        <h3 class="collapsible-header" data-target="paymentSection">
-            💰 تسجيل دفع يدوي
-            <i class="fas fa-chevron-down"></i>
-        </h3>
-        <div id="paymentSection" class="collapsible-content">
+        <div style="margin-top: 20px;">
+  
+            <h3>💰 تسجيل دفع يدوي</h3>
             <input type="text" id="payWorkerName" placeholder="اسم العامل">
             <input type="number" id="payAmount" placeholder="المبلغ المراد دفعه">
             <button onclick="payByWorkerName()">دفع</button>
         </div>
-
-        <h3 class="collapsible-header" data-target="paymentHistorySection">
-            🗓️ سجل المدفوعات
-            <i class="fas fa-chevron-down"></i>
-        </h3>
-        <div id="paymentHistorySection" class="collapsible-content">
+        
+        <div style="margin-top: 20px;">
+            <h3>🗓️ سجل المدفوعات</h3>
+ 
             <input type="text" id="historyWorkerName" placeholder="اسم العامل لعرض سجل الدفعات">
             <button onclick="showPaymentHistory()">عرض السجل</button>
             <div id="paymentHistoryReport" style="margin-top:10px;"></div>
         </div>
-        
-        <h3 class="collapsible-header" data-target="reportsSection">
-            📑 الجرد
-            <i class="fas fa-chevron-down"></i>
-        </h3>
-        <div id="reportsSection" class="collapsible-content">
-            <input type="text" id="reportWorkerName" placeholder="اسم العامل لعرض التقرير">
-            <div class="inline-buttons">
-                <button onclick="showReport()">عرض التقرير</button>
-                <button onclick="showAllReports()">عرض كل التقارير</button>
-            </div>
-            <div id="report"></div>
-        </div>
+
+        <h3>📑 الجرد</h3>
+        <input type="text" id="reportWorkerName" placeholder="اسم العامل لعرض التقرير">
+        <button onclick="showReport()">عرض التقرير</button>
+        <button onclick="showAllReports()">عرض كل التقارير</button>
+  
+        <div id="report"></div>
     </div>
 </div>
 
@@ -1290,20 +706,21 @@ border: 1px solid rgba(255,255,255,0.1);">
         authDomain: "your-project-10fbe.firebaseapp.com",
         databaseURL: "https://your-project-10fbe-default-rtdb.firebaseio.com",
         projectId: "your-project-10fbe",
+    
         storageBucket: "your-project-10fbe.firebasestorage.app",
         messagingSenderId: "715972050011",
         appId: "1:715972050011:web:d5a4507dcfc30fa779d37e",
         measurementId: "G-D1FRL391R4"
     };
-    // Initialize Firebase
+// Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const database = firebase.database();
-    // Global Variables
+// Global Variables
     let projects = [];
     let currentProject = null;
     let currentUser = null;
-    // UI Elements
+// UI Elements
     const authPage = document.getElementById('authPage');
     const mainPage = document.getElementById('mainPage');
     const form = document.getElementById('auth-form');
@@ -1323,7 +740,7 @@ border: 1px solid rgba(255,255,255,0.1);">
     const projectSelector = document.getElementById('projectSelector');
     
     let isLoginMode = true;
-    // Check for user login state
+// Check for user login state
     auth.onAuthStateChanged(user => {
         if (user) {
             currentUser = user;
@@ -1332,10 +749,11 @@ border: 1px solid rgba(255,255,255,0.1);">
         } else {
             currentUser = null;
             hideAllPages();
+     
             authPage.classList.remove('hidden');
         }
     });
-    // Message functions
+// Message functions
     function showSuccess(message) {
         successMsg.textContent = message;
         successMsg.style.display = 'block';
@@ -1389,6 +807,7 @@ border: 1px solid rgba(255,255,255,0.1);">
             })
             .catch((error) => {
                 const errorMessage = error.message;
+ 
                 showError('حدث خطأ أثناء تسجيل الدخول. تأكد من البريد الإلكتروني وكلمة المرور.');
                 console.error("Login error: ", errorMessage);
             });
@@ -1409,24 +828,28 @@ border: 1px solid rgba(255,255,255,0.1);">
                 const user = userCredential.user;
                 database.ref('users/' + user.uid).set({
                     email: email,
+                 
                     name: email.split('@')[0]
                 }).then(() => {
                     showSuccess('تم إنشاء الحساب بنجاح! 🎉 يمكنك الآن تسجيل الدخول');
                     setTimeout(() => {
                         toggleMode();
+    
                         document.getElementById('email').value = email;
                     }, 1000);
                 });
             })
             .catch((error) => {
+               
                 const errorMessage = error.message;
                 if (errorMessage.includes("email-already-in-use")) {
                     showError('هذا البريد الإلكتروني مستخدم بالفعل ❌');
                 } else {
                     showError('حدث خطأ أثناء إنشاء الحساب. حاول مرة أخرى.');
+        
                 }
                 console.error("Signup error: ", errorMessage);
-            });
+    });
     }
 
     function hideAllPages() {
@@ -1438,7 +861,7 @@ border: 1px solid rgba(255,255,255,0.1);">
         hideAllPages();
         mainPage.classList.remove('hidden');
         userDisplayName.textContent = currentUser.displayName ||
-        currentUser.email.split('@')[0];
+currentUser.email.split('@')[0];
         userDisplayEmail.textContent = currentUser.email;
     }
 
@@ -1449,6 +872,7 @@ border: 1px solid rgba(255,255,255,0.1);">
             })
             .catch((error) => {
                 showError('حدث خطأ أثناء تسجيل الخروج.');
+  
                 console.error("Logout error: ", error);
             });
     }
@@ -1460,14 +884,17 @@ border: 1px solid rgba(255,255,255,0.1);">
                 .then(() => {
                     alert("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من البريد في خانة الرسائل الغير مرغوب بها .");
                 })
+            
                 .catch((error) => {
                     let errorMessage = "حدث خطأ. يرجى المحاولة مرة أخرى.";
                     if (error.code === "auth/user-not-found") {
                         errorMessage = "هذا البريد الإلكتروني غير مسجل. يرجى التحقق من البريد الإلكتروني والمحاولة مرة أخرى.";
+    
                     } else if (error.code === "auth/invalid-email") {
                         errorMessage = "صيغة البريد الإلكتروني غير صحيحة.";
                     }
                     alert(errorMessage);
+        
                     console.error("Password reset error:", error);
                 });
         } else {
@@ -1484,6 +911,7 @@ border: 1px solid rgba(255,255,255,0.1);">
             return;
         }
         login(email, password);
+   
     });
 
     signupBtn.addEventListener('click', function() {
@@ -1500,10 +928,12 @@ border: 1px solid rgba(255,255,255,0.1);">
         }
         signup(email, password, confirmPassword);
     });
+
     toggleLink.addEventListener('click', function(e) {
         e.preventDefault();
         toggleMode();
     });
+
     logoutBtn.addEventListener('click', logout);
 
     form.addEventListener('keypress', function(e) {
@@ -1516,21 +946,17 @@ border: 1px solid rgba(255,255,255,0.1);">
             }
         }
     });
+
     // ========== Project Management Functions with Firebase ==========
-    
     // Load projects from Firebase
     function loadProjects() {
         if (!currentUser) return;
         const projectsRef = database.ref(`workmanProjects/${currentUser.uid}`);
-        
         projectsRef.on('value', snapshot => {
             const data = snapshot.val();
             projects = [];
             if (data) {
-                projects = Object.keys(data).map(key => ({
-                    id: key,
-                    ...data[key]
-                }));
+                projects = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             }
             updateProjectSelector();
         });
@@ -1544,7 +970,6 @@ border: 1px solid rgba(255,255,255,0.1);">
                 return reject("No user logged in.");
             }
             const projectsRef = database.ref(`workmanProjects/${currentUser.uid}`);
-            
             if (projectData.id) {
                 const projectId = projectData.id;
                 delete projectData.id;
@@ -1578,7 +1003,7 @@ border: 1px solid rgba(255,255,255,0.1);">
         let projectName = document.getElementById("newProjectName").value.trim();
         if (projectName) {
             const newProject = {
-                name: projectName, 
+                name: projectName,
                 workers: []
             };
             saveProject(newProject).then(() => {
@@ -1593,8 +1018,7 @@ border: 1px solid rgba(255,255,255,0.1);">
         projectSelector.innerHTML = "";
         if (projects.length > 0) {
             // Check if current project still exists
-            const currentProjectId = currentProject ?
-            currentProject.id : null;
+            const currentProjectId = currentProject ? currentProject.id : null;
             const projectExists = projects.some(p => p.id === currentProjectId);
             projects.forEach(p => {
                 let option = document.createElement("option");
@@ -1608,7 +1032,6 @@ border: 1px solid rgba(255,255,255,0.1);">
                 // Select the first project if the current one was deleted or not set
                 projectSelector.value = projects[0].id;
             }
-
             switchProject();
         } else {
             currentProject = null;
@@ -1622,10 +1045,8 @@ border: 1px solid rgba(255,255,255,0.1);">
             mainContent.style.display = "none";
             return;
         }
-
         let projectId = projectSelector.value;
         currentProject = projects.find(p => p.id === projectId);
-        
         if (currentProject) {
             mainContent.style.display = "block";
             updateTable();
@@ -1640,7 +1061,6 @@ border: 1px solid rgba(255,255,255,0.1);">
             alert("⚠️ لا يوجد مشروع محدد لحذفه.");
             return;
         }
-
         const projectName = currentProject.name;
         if (confirm(`هل أنت متأكد من أنك تريد حذف المشروع "${projectName}"؟ هذا الإجراء لا يمكن التراجع عنه.`)) {
             const projectRef = database.ref(`workmanProjects/${currentUser.uid}/${currentProject.id}`);
@@ -1655,20 +1075,17 @@ border: 1px solid rgba(255,255,255,0.1);">
     }
 
     function getWorkers() {
-        return currentProject ?
-        currentProject.workers || [] : [];
+        return currentProject ? currentProject.workers || [] : [];
     }
-    
+
     // Attendance Functions
     function markAttendanceByName(type) {
         let nameToFind = document.getElementById("attendanceWorkerName").value.trim();
         let workers = getWorkers();
-
         if (!nameToFind) {
             alert("⚠️ يرجى إدخال اسم العامل.");
             return;
         }
-
         let workerFound = false;
         workers.forEach(w => {
             if (w.name === nameToFind) {
@@ -1697,26 +1114,16 @@ border: 1px solid rgba(255,255,255,0.1);">
             alert("⚠️ يرجى اختيار مشروع أولاً.");
             return;
         }
-
         let name = document.getElementById("name").value.trim();
         let phone = document.getElementById("phone").value.trim();
         let wage = parseFloat(document.getElementById("wage").value);
         let imageFile = document.getElementById("imageFile").files[0];
-
         if(name && phone && wage) {
             if(imageFile) {
                 let reader = new FileReader();
                 reader.onload = function(e) {
                     if (!currentProject.workers) currentProject.workers = [];
-                    currentProject.workers.push({
-                        name: name, 
-                        phone: phone, 
-                        wage: wage, 
-                        days: 0, 
-                        attendance: [], 
-                        payments: [], 
-                        image: e.target.result
-                    });
+                    currentProject.workers.push({ name: name, phone: phone, wage: wage, days: 0, attendance: [], payments: [], image: e.target.result });
                     saveProject(currentProject).then(() => {
                         updateTable();
                         resetInputs();
@@ -1725,15 +1132,7 @@ border: 1px solid rgba(255,255,255,0.1);">
                 reader.readAsDataURL(imageFile);
             } else {
                 if (!currentProject.workers) currentProject.workers = [];
-                currentProject.workers.push({
-                    name: name, 
-                    phone: phone, 
-                    wage: wage, 
-                    days: 0, 
-                    attendance: [], 
-                    payments: [], 
-                    image: 'https://via.placeholder.com/50'
-                });
+                currentProject.workers.push({ name: name, phone: phone, wage: wage, days: 0, attendance: [], payments: [], image: 'https://via.placeholder.com/50' });
                 saveProject(currentProject).then(() => {
                     updateTable();
                     resetInputs();
@@ -1743,7 +1142,7 @@ border: 1px solid rgba(255,255,255,0.1);">
             alert("⚠️ يرجى إدخال اسم العامل، رقم الهاتف، والأجرة اليومية");
         }
     }
-    
+
     function resetInputs() {
         document.getElementById("name").value = "";
         document.getElementById("phone").value = "";
@@ -1755,20 +1154,15 @@ border: 1px solid rgba(255,255,255,0.1);">
         let nameToFind = document.getElementById("payWorkerName").value.trim();
         let amountToPay = parseFloat(document.getElementById("payAmount").value);
         let workers = getWorkers();
-        
         if (!nameToFind || !amountToPay || isNaN(amountToPay) || amountToPay <= 0) {
             alert("⚠️ يرجى إدخال اسم العامل والمبلغ الصحيح.");
             return;
         }
-
         let workerFound = false;
         workers.forEach(w => {
             if (w.name === nameToFind) {
                 if (!w.payments) w.payments = [];
-                w.payments.push({
-                    amount: amountToPay,
-                    date: new Date().toLocaleString("ar-EG")
-                });
+                w.payments.push({ amount: amountToPay, date: new Date().toLocaleString("ar-EG") });
                 workerFound = true;
             }
         });
@@ -1789,7 +1183,6 @@ border: 1px solid rgba(255,255,255,0.1);">
         let nameToFind = document.getElementById("historyWorkerName").value.trim();
         let workers = getWorkers();
         historyDiv.innerHTML = "";
-
         let worker = workers.find(w => w.name === nameToFind);
         if (worker) {
             if (worker.payments && worker.payments.length > 0) {
@@ -1824,15 +1217,7 @@ border: 1px solid rgba(255,255,255,0.1);">
         table.innerHTML = "";
         workers.forEach((w, i) => {
             let totalDue = w.days * w.wage;
-            let row = `<tr>
-                <td>${w.name}</td>
-                <td>${formatNumber(w.wage)}</td>
-                <td>${w.days}</td>
-                <td>${formatNumber(totalDue)}</td>
-                <td class="action-buttons">
-                    <button onclick="deleteWorker(${i})">حذف</button>
-                </td>
-            </tr>`;
+            let row = `<tr> <td>${w.name}</td> <td>${formatNumber(w.wage)}</td> <td>${w.days}</td> <td>${formatNumber(totalDue)}</td> <td class="action-buttons"> <button onclick="deleteWorker(${i})">حذف</button> </td> </tr>`;
             table.innerHTML += row;
         });
     }
@@ -1849,72 +1234,55 @@ border: 1px solid rgba(255,255,255,0.1);">
                 let totalPaid = (worker.payments || []).reduce((sum, p) => sum + p.amount, 0);
                 let remaining = totalDue - totalPaid;
                 let attList = (worker.attendance || []).map(a => `${a.date} (${a.value} يوم)`).join("<br>");
-                let card = `<div class="report">
-                    <div class="worker-details">
-                        <img src="${worker.image || 'https://via.placeholder.com/50'}" alt="صورة العامل" class="worker-image" onclick="openImage('${worker.image || 'https://via.placeholder.com/700'}')">
-                        <b>${worker.name}</b>
-                    </div>
-                    <br>
-                    📞 ${worker.phone}<br>
-                    💰 أجرة يومية: ${formatNumber(worker.wage)}<br>
-                    📅 عدد الأيام: ${worker.days}<br>
-                    🧾 الراتب المستحق: ${formatNumber(totalDue)}<br>
-                    💵 المدفوع: ${formatNumber(totalPaid)}<br>
-                    ⚖️ الراتب المتبقي: ${formatNumber(remaining)}<br>
-                    🗓️ تواريخ الحضور:<br> ${attList ||
-                    "لا يوجد حضور مسجل"}
-                </div>`;
+                let card = `<div class="report"> <div class="worker-details"> <img src="${worker.image || 'https://via.placeholder.com/50'}" alt="صورة العامل" class="worker-image" onclick="openImage('${worker.image || 'https://via.placeholder.com/700'}')"> <b>${worker.name}</b> </div> <br> 📞 ${worker.phone}<br> 💰 أجرة يومية: ${formatNumber(worker.wage)}<br> 📅 عدد الأيام: ${worker.days}<br> 🧾 الراتب المستحق: ${formatNumber(totalDue)}<br> 💵 المدفوع: ${formatNumber(totalPaid)}<br> ⚖️ الراتب المتبقي: ${formatNumber(remaining)}<br> 🗓️ تواريخ الحضور:<br> ${attList ||
+`لا توجد تواريخ حضور مسجلة.`}<br> </div>`;
                 reportDiv.innerHTML = card;
             } else {
-                reportDiv.innerHTML = `<p>لم يتم العثور على عامل بهذا الاسم في هذا المشروع.</p>`;
+                reportDiv.innerHTML = `<p class="error-message" style="display:block;">لم يتم العثور على عامل بهذا الاسم.</p>`;
             }
         } else {
-            showAllReports();
+            reportDiv.innerHTML = `<p class="error-message" style="display:block;">يرجى إدخال اسم العامل لعرض التقرير.</p>`;
         }
     }
-    
+
     function showAllReports() {
         let reportDiv = document.getElementById("report");
-        let workers = getWorkers();
         reportDiv.innerHTML = "";
-        workers.forEach((w, i) => {
-            let totalDue = w.days * w.wage;
-            let totalPaid = (w.payments || []).reduce((sum, p) => sum + p.amount, 0);
-            let remaining = totalDue - totalPaid;
-            let attList = (w.attendance || []).map(a => `${a.date} (${a.value} يوم)`).join("<br>");
-            
-            let card = `<div class="report">
-                <div class="worker-details">
-                    <img src="${w.image || 'https://via.placeholder.com/50'}" alt="صورة العامل" class="worker-image" onclick="openImage('${w.image || 'https://via.placeholder.com/700'}')">
-                    <b>${i+1} - ${w.name}</b>
-                </div>
-                <br>
-                📞 ${w.phone}<br>
-                💰 أجرة يومية: ${formatNumber(w.wage)}<br>
-                📅 عدد الأيام: ${w.days}<br>
-                🧾 الراتب المستحق: ${formatNumber(totalDue)}<br>
-                💵 المدفوع: ${formatNumber(totalPaid)}<br>
-                ⚖️ الراتب المتبقي: ${formatNumber(remaining)}<br>
-                🗓️ تواريخ الحضور:<br> ${attList ||
-                "لا يوجد حضور مسجل"}
-            </div>`;
-            reportDiv.innerHTML += card;
-        });
+        let workers = getWorkers();
+        if (workers.length > 0) {
+            workers.forEach(worker => {
+                let totalDue = worker.days * worker.wage;
+                let totalPaid = (worker.payments || []).reduce((sum, p) => sum + p.amount, 0);
+                let remaining = totalDue - totalPaid;
+                let attList = (worker.attendance || []).map(a => `${a.date} (${a.value} يوم)`).join("<br>");
+                let card = `<div class="report" style="margin-bottom: 20px;"> <div class="worker-details"> <img src="${worker.image || 'https://via.placeholder.com/50'}" alt="صورة العامل" class="worker-image" onclick="openImage('${worker.image || 'https://via.placeholder.com/700'}')"> <b>${worker.name}</b> </div> <br> 📞 ${worker.phone}<br> 💰 أجرة يومية: ${formatNumber(worker.wage)}<br> 📅 عدد الأيام: ${worker.days}<br> 🧾 الراتب المستحق: ${formatNumber(totalDue)}<br> 💵 المدفوع: ${formatNumber(totalPaid)}<br> ⚖️ الراتب المتبقي: ${formatNumber(remaining)}<br> 🗓️ تواريخ الحضور:<br> ${attList ||
+`لا توجد تواريخ حضور مسجلة.`}<br> </div>`;
+                reportDiv.innerHTML += card;
+            });
+        } else {
+            reportDiv.innerHTML = `<p>لا يوجد عمال مسجلون في هذا المشروع.</p>`;
+        }
     }
 
-    // Modal functions
-    function openImage(imageSrc) {
-        let modal = document.getElementById("imageModal");
-        let modalImg = document.getElementById("modalImage");
+    // Image Modal Functions
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+
+    function openImage(src) {
         modal.style.display = "block";
-        modalImg.src = imageSrc;
+        modalImg.src = src;
     }
 
     function closeImage() {
-        let modal = document.getElementById("imageModal");
         modal.style.display = "none";
     }
 
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+    
     // Dark Mode Toggle
     document.addEventListener('DOMContentLoaded', (event) => {
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -1949,24 +1317,8 @@ border: 1px solid rgba(255,255,255,0.1);">
             }
             updateDarkModeIcon();
         });
-
-        // Add collapsible functionality
-        const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
-        collapsibleHeaders.forEach(header => {
-            header.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = document.getElementById(this.dataset.target);
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            });
-        });
     });
 
 </script>
-
 </body>
-
 </html>
