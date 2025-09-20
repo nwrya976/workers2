@@ -545,71 +545,86 @@
         padding: 0;
     }
     
-    /* Responsive Design */
-    @media(max-width: 600px) and (orientation: portrait) {
-        .container {
-            padding: 25px 20px;
-            border-radius: 12px;
-            margin-top: 60px;
-        }
-        
-        h1 {
-            font-size: 26px;
-        }
-        
-        .user-header {
-            flex-direction: column;
-            text-align: center;
-            gap: 10px;
-        }
-        
-        .theme-toggle {
-            top: 10px;
-            left: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .inline-buttons {
-            flex-direction: column;
-        }
-        
-        .inline-buttons button {
-            width: 100%;
-        }
-
-        /* تعديلات جديدة لتصغير الأزرار وحقول الإدخال */
-        input[type="text"], input[type="number"], input[type="email"], input[type="password"], 
-        input[type="file"], select, textarea {
-            padding: 8px 10px;
-            font-size: 0.8rem;
-        }
-        
-        button {
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary, .btn-secondary {
-            padding: 10px 15px;
-        }
-        
-        /* New rules for the table and operations column */
-        th, td {
-            padding: 8px; /* Reduce padding for a more compact look */
-            font-size: 0.8rem; /* Make the font smaller */
-        }
-    
-        .action-buttons {
-            flex-direction: column;
-            gap: 4px; /* A smaller gap between buttons */
-        }
-    
-        .action-buttons button {
-            padding: 6px 8px; /* Reduce button padding */
-            font-size: 0.8rem; /* Reduce button font size */
-            width: auto; /* Allow buttons to take up less width */
-        }
+   /* Responsive Design */
+@media(max-width: 600px) and (orientation: portrait) {
+    .container {
+        padding: 25px 20px;
+        border-radius: 12px;
+        margin-top: 60px;
     }
+    
+    h1 {
+        font-size: 26px;
+    }
+    
+    .user-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .theme-toggle {
+        top: 10px;
+        left: 10px;
+        font-size: 1.2rem;
+    }
+    
+    .inline-buttons {
+        flex-direction: column;
+    }
+    
+    .inline-buttons button {
+        width: 100%;
+    }
+
+    /* تعديلات جديدة لتصغير الأعمدة وتناسبها مع الشاشة */
+    table { 
+        width: 100%;
+        table-layout: fixed; /* تثبيت عرض الجدول */
+    }
+    
+    th, td {
+        padding: 8px; /* تقليل حجم الحشو */
+        font-size: 0.7rem; /* تقليل حجم الخط أكثر */
+        overflow: hidden; /* إخفاء المحتوى الزائد */
+        white-space: nowrap; /* منع النص من الالتفاف */
+        text-overflow: ellipsis; /* إضافة نقاط (...) للمحتوى المخفي */
+    }
+
+    /* تحديد عرض كل عمود بالنسبة المئوية */
+    th:nth-child(1), td:nth-child(1) { width: 25%; } /* الاسم */
+    th:nth-child(2), td:nth-child(2) { width: 20%; } /* الأجرة اليومية */
+    th:nth-child(3), td:nth-child(3) { width: 15%; } /* عدد الأيام */
+    th:nth-child(4), td:nth-child(4) { width: 25%; } /* الراتب المستحق */
+    th:nth-child(5), td:nth-child(5) { width: 15%; } /* العمليات */
+
+    .action-buttons {
+        flex-direction: row; /* عرض الأزرار بجانب بعضها لتوفير المساحة */
+        gap: 2px; /* تقليل المسافة بين الأزرار */
+        justify-content: center;
+    }
+
+    .action-buttons button {
+        padding: 4px 6px; /* تقليل حشو الأزرار بشكل كبير */
+        font-size: 0.6rem; /* تقليل حجم الخط في الأزرار */
+    }
+    
+    /* تعديلات سابقة أخرى */
+    input[type="text"], input[type="number"], input[type="email"], input[type="password"], 
+    input[type="file"], select, textarea {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+    
+    button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 10px 15px;
+    }
+}
 </style>
 </head>
 
@@ -1459,3 +1474,4 @@ border: 1px solid rgba(255,255,255,0.1);">
 
 </body>
 </html>
+
